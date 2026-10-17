@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="referrer" content="no-referrer">
+<title>香港工程師 · 考牌｜求職｜留學</title>
+<meta name="description" content="香港工程師考牌（MHKIE / CEng / RPE）路徑指引、學歷認證、香港求職指南、CV 體檢、知識庫 AI 問答。">
+<style>
+  html,body{margin:0;padding:0;height:100%;background:#f6f9fc;overflow:hidden}
+  #site{position:fixed;inset:0;width:100%;height:100%;border:0;display:block;background:#f6f9fc}
+  #boot{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;font-family:-apple-system,BlinkMacSystemFont,"PingFang HK","Microsoft JhengHei",sans-serif;color:#10365c;background:#f6f9fc;z-index:50}
+  .sp{width:34px;height:34px;border:3px solid #d7e2ee;border-top-color:#10365c;border-radius:50%;animation:r .9s linear infinite}
+  @keyframes r{to{transform:rotate(360deg)}}
+  #boot p{margin:0;font-size:14px;color:#5a6b7d}
+  #boot a{display:inline-block;margin-top:6px;background:#10365c;color:#fff;font-weight:700;padding:11px 22px;border-radius:30px;text-decoration:none;font-size:14px}
+  #wx{position:fixed;left:0;right:0;top:0;z-index:60;background:#fff8e6;color:#7a5200;border-bottom:1px solid #f0dfae;padding:9px 14px;font:13px/1.6 -apple-system,BlinkMacSystemFont,"PingFang HK","Microsoft JhengHei",sans-serif;display:none;text-align:center}
+  #wx b{color:#7a5200}
+</style>
+</head>
+<body>
+<div id="wx">微信內可能顯示不全——點右上角 <b>⋯</b> → <b>在瀏覽器打開</b> 體驗最好</div>
+<iframe id="site" src="about:blank" title="香港工程師 · 考牌｜求職｜留學"
+        allow="clipboard-write; clipboard-read; fullscreen"
+        referrerpolicy="no-referrer" loading="eager"></iframe>
+<div id="boot">
+  <div class="sp"></div>
+  <p>正在載入…</p>
+</div>
+
+<script>
+(function () {
+  var BASE = 'https://stevehksz.app.workbuddy.host/';
+  var frame = document.getElementById('site');
+  var boot = document.getElementById('boot');
+  var wx = document.getElementById('wx');
+
+  /* 只放行白名單參數：pane（深鏈）/ ref（推廣統計） */
+  var src = BASE, qs = [];
+  try {
+    var sp = new URLSearchParams(location.search);
+    var pane = sp.get('pane');
+    var ref = sp.get('ref');
+    if (pane && /^[a-z]{2,12}$/.test(pane)) qs.push('pane=' + encodeURIComponent(pane));
+    if (ref && /^[\w-]{1,40}$/.test(ref)) qs.push('ref=' + encodeURIComponent(ref));
+  } catch (e) { /* 舊瀏覽器忽略 */ }
+  if (qs.length) src += '?' + qs.join('&');
+
+  /* 微信內：平台網關會按 UA 攔截整站（403），所以不載入 iframe，改顯示引導頁 */
+  if (/MicroMessenger/i.test(navigator.userAgent)) {
+    frame.style.display = 'none';
+    wx.style.display = 'none';
+    var url = 'https://steveyehksz.github.io/HK-Engineer-Job/';
+    boot.innerHTML =
+      '<div style="max-width:420px;padding:0 24px;text-align:center">' +
+        '<div style="font-size:38px;line-height:1">📱</div>' +
+        '<h1 style="font-size:19px;margin:14px 0 8px;color:#10365c">微信內打不開完整網站</h1>' +
+        '<p style="font-size:14px;color:#5a6b7d;margin:0 0 18px;line-height:1.75">' +
+          '受微信內置瀏覽器限制，互動功能（AI 問答、CV 表單、案例牆）無法運作。<br>' +
+          '請點右上角 <b style="color:#10365c">⋯</b> → <b style="color:#10365c">在瀏覽器打開</b>。' +
+        '</p>' +
+        '<a href="' + src + '" target="_top" rel="noopener" style="display:inline-block;background:#c9992e;color:#241a02;font-weight:700;padding:12px 24px;border-radius:34px;text-decoration:none;font-size:15px">用瀏覽器打開網站 →</a>' +
+        '<div style="margin-top:16px"><button id="cpBtn" style="background:#fff;border:1px solid #cfd8e3;color:#10365c;padding:9px 18px;border-radius:22px;font-size:13px;cursor:pointer">📋 複製網址</button></div>' +
+        '<p style="font-size:12px;color:#8695a6;margin-top:14px">複製後可貼到 Safari / Chrome 打開</p>' +
+      '</div>';
+    var cp = document.getElementById('cpBtn');
+    if (cp) cp.onclick = function () {
+      var doCopy = function (txt) {
+        try {
+          if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(txt); }
+          else { var t = document.createElement('textarea'); t.value = txt; document.body.appendChild(t); t.select(); document.execCommand('copy'); document.body.removeChild(t); }
+          cp.textContent = '✅ 已複製';
+        } catch (e) { cp.textContent = '請長按選中網址複製'; }
+      };
+      doCopy(url);
+    };
+    return;
+  }
+
+  /* 載入兜底：8 秒仍未載入完成 → 給直達按鈕（網關/網絡異常時不至於白屏） */
+  var done = false;
+  frame.addEventListener('load', function () {
+    done = true;
+    if (boot && boot.parentNode) boot.parentNode.removeChild(boot);
+  });
+  setTimeout(function () {
+    if (done) return;
+    boot.innerHTML = '<p>載入較慢或網絡不穩。</p><a href="' + src + '" target="_top" rel="noopener">直接打開網站 →</a>';
+  }, 8000);
+
+  frame.src = src;
+})();
+</script>
+</body>
+</html>
